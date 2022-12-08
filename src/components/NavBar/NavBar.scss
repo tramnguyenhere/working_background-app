@@ -1,0 +1,75 @@
+@import '../../assets/styles/global.scss';
+
+.navbar__wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    .navlist {
+        display: flex;
+        margin: 20px;
+
+        .navitem {
+            color: $text-color;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+        }
+
+        #btn__clock {
+            background: $bg-shadow-color;
+            border-radius: 5px;
+            outline: none;
+            margin-right: 20px;
+           
+            &:hover {
+                background: $bg-color;
+            }
+
+            &:active {
+                background: $bg-color;
+                transform: translateY(4px);
+            }
+        }
+
+        #btn__time-mode {
+            display: flex;
+            background-color: $primary-color;
+            width: 75px;
+            height: 40px;
+            border-radius: 30px;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0;
+
+            #icon--control, #icon--night  {
+               font-size: 30px;
+            }
+
+            #icon--day {
+                font-size: 28px;
+            }
+
+            #icon--night {
+                display: none;
+            }
+        }
+
+        .night-mode {
+            background-color: $secondary-color !important;
+            flex-direction: row-reverse;
+
+            #icon--day {
+                display: none;
+            }
+
+            #icon--night {
+                display: block !important;
+            }
+        }
+
+    }
+}
