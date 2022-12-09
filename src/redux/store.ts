@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import backgroundReducer from './features/backgroundSlice'
+import soundReducer from './features/soundSlice'
     
 const store = configureStore({
   reducer: {
-    background: backgroundReducer
+    background: backgroundReducer,
+    sound: soundReducer
   },
 })
 // Infer the `RootState` and `AppDispatch` types from the store itself

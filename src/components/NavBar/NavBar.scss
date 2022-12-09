@@ -12,18 +12,19 @@
         .navitem {
             color: $text-color;
             font-size: 18px;
-            padding: 10px 20px;
+            padding: 10px 15px;
             border: none;
             outline: none;
             cursor: pointer;
-            transition: all 0.15s ease-in-out;
+            transition: all 0.15s ease-in;
+            margin-right: 20px;
         }
 
-        #btn__clock {
-            background: $bg-shadow-color;
+        #btn__clock, #btn__song--control, #btn__screensize--control {
+            background-color: $bg-shadow-color;
             border-radius: 5px;
             outline: none;
-            margin-right: 20px;
+            
            
             &:hover {
                 background: $bg-color;
@@ -71,5 +72,21 @@
             }
         }
 
+        #btn__song--control {
+
+            #state--pause {
+                display: none;
+            }
+        }
+
+        .pause-mode {
+            #state--pause {
+                display: block !important;
+            }
+
+            #state--play {
+                display: none;
+            }
+        }
     }
 }
