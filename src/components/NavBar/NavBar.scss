@@ -36,7 +36,7 @@
             }
         }
 
-        #btn__time-mode {
+        #btn__time-mode, #btn__weather-mode {
             display: flex;
             background-color: $primary-color;
             width: 75px;
@@ -70,6 +70,18 @@
             #icon--night {
                 display: block !important;
             }
+        }
+        
+        #btn__weather-mode {
+            background-color: $secondary-color;
+            opacity: 0.5;
+
+            #icon--rain {
+                font-size: 25px;
+            }
+        }
+        .rain-mode {
+            opacity: 1 !important;
         }
 
         #btn__song--control {

@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
-import { setNightMode } from '../../redux/features/backgroundSlice';
+import React, { useEffect, useState } from 'react';
+import { setNightMode, setRainMode } from '../../redux/features/backgroundSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 
 import './NavBar.scss';
 
-import { hours, minutes } from '../../utils/timeUtils';
+import { hours, minutes } from '../../utils/utils';
 import { setSongState } from '../../redux/features/soundSlice';
 
 const NavBar = () => {
   const [fullscreen, setFullscreen] = useState(false);
+
   const dispatch = useAppDispatch()
+
   const isNight = useAppSelector((state: RootState) => state.background.background.nightMode)
+  const isRainy = useAppSelector((state: RootState) => state.background.background.rainMode)
   const isPlaying = useAppSelector((state: RootState) => state.sound.songState) 
   
   const nightModeHandler = (e:any) => {
     e.preventDefault()
     dispatch(setNightMode(!isNight))
+  }
+  const rainyModeHandler = (e:any) => {
+    e.preventDefault()
+    dispatch(setRainMode(!isRainy))
   }
 
   const songStateHandler = (e: any) => {
@@ -38,6 +45,9 @@ const NavBar = () => {
 
   }
 
+  useEffect(() => {
+    hours > 14 && dispatch(setNightMode(true))
+  },[dispatch])
 
   return (
     <div className='navbar__wrapper'>
@@ -48,7 +58,10 @@ const NavBar = () => {
           <i className='fa-solid fa-sun' id='icon--day'></i>
           <i className='fa-solid fa-moon' id='icon--night'></i>
         </button>
-        <button onClick={songStateHandler} className={`navitem ${!isPlaying && 'pause-mode'}`} id='btn__song--control'><i className="fa-solid fa-pause" id='state--pause'></i><i className="fa-solid fa-play" id='state--play'></i></button>
+        <button onClick={rainyModeHandler} className={`navitem  ${isRainy && 'rain-mode'}`} id='btn__weather-mode'>
+          <i className="fa-solid fa-cloud-rain" id='icon--rain'></i>
+        </button>
+        <button onClick={songStateHandler} className={`navitem ${isPlaying && 'pause-mode'}`} id='btn__song--control'><i className="fa-solid fa-pause" id='state--pause'></i><i className="fa-solid fa-play" id='state--play'></i></button>
         <button onClick={fullscreenHandler} className='navitem'  id='btn__screensize--control'><i className="fa-solid fa-expand"></i></button>
       </div>
     </div>
