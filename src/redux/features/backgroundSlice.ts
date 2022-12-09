@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TimeType, WeatherType } from "../../types/type";
 
 const initialState = {
     background: {
-        time: TimeType.NIGHT,
-        weather: WeatherType.SUNNY
+        nightMode: false,
+        rainMode: true
     }
 };
 
@@ -12,11 +11,11 @@ export const backgroundSlice = createSlice({
     name: 'background',
     initialState,
     reducers: {
-        changeTimeBackground: (state, action) => {
-            state.background.time = action.payload
+        setNightMode: (state, action) => {
+            state.background.nightMode = action.payload
         }
     }
 })
 
-export const { changeTimeBackground } = backgroundSlice.actions;
+export const { setNightMode } = backgroundSlice.actions;
 export default backgroundSlice.reducer
