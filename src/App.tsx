@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import './App.scss';
+import ControlPanel from './components/ControlPanel/ControlPanel';
 import NavBar from './components/NavBar/NavBar';
 import TimeDetails from './components/TimeDetails/TimeDetails';
 import { useAppSelector } from './redux/hooks';
@@ -62,6 +63,7 @@ function App() {
       </video>
       <audio src="./assets/sound/songs/bg-song--chill.mp3" id='song--chill' autoPlay loop hidden />
       <NavBar />
+      <ControlPanel />
       <TimeDetails />
     </div>
   );

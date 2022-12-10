@@ -4,11 +4,9 @@
     position: fixed;
     top: 0;
     right: 0;
-
-    .navlist {
-        display: flex;
-        margin: 20px;
-
+    display: flex;
+    margin: 20px;
+   
         .navitem {
             color: $text-color;
             font-size: 18px;
@@ -100,5 +98,4 @@
                 display: none;
             }
         }
-    }
 }

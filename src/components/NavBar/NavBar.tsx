@@ -51,7 +51,6 @@ const NavBar = () => {
 
   return (
     <div className='navbar__wrapper'>
-      <div className='navlist'>
         <button className='navitem' id='btn__clock'>{hours}:{minutes}</button>
         <button onClick={nightModeHandler} className={`navitem  ${isNight && 'night-mode'}`} id='btn__time-mode'>
           <i className="fa-solid fa-circle" id='icon--control'></i>
@@ -63,7 +62,7 @@ const NavBar = () => {
         </button>
         <button onClick={songStateHandler} className={`navitem ${isPlaying && 'pause-mode'}`} id='btn__song--control'><i className="fa-solid fa-pause" id='state--pause'></i><i className="fa-solid fa-play" id='state--play'></i></button>
         <button onClick={fullscreenHandler} className='navitem'  id='btn__screensize--control'><i className="fa-solid fa-expand"></i></button>
-      </div>
+   
     </div>
   )
 }

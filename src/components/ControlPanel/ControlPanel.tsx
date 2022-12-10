@@ -1,8 +1,10 @@
 import React from 'react'
-
+import './ControlPanel.scss'
 const ControlPanel = () => {
   return (
-    <div>ControlPanel</div>
+    <div>
+      <button className='control_panel__wrapper'><i className="fa-solid fa-sliders"></i></button>
+    </div>
   )
 }
 
