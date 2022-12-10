@@ -1,5 +1,17 @@
 @import '../../assets/styles/global.scss';
 
 .control_panel__wrapper {
-position: fixed;
+    width: 200px;
+    height: 200px;
+    background-color: $bg-shadow-color;
+    border: 1px solid black;
+    padding: 10px;
+    position: absolute;
+    right: 50px;
+    top: 20%;
+    color: $text-color;
+}
+
+.dragging {
+    opacity: 0.6;
 }

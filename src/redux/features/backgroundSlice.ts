@@ -4,6 +4,8 @@ const initialState = {
     background: {
         nightMode: false,
         rainMode: false,
+        timeDetails: false,
+        controlPanelBoard: false 
     }
 };
 
@@ -17,8 +19,14 @@ export const backgroundSlice = createSlice({
         setRainMode: (state, action) => {
             state.background.rainMode = action.payload
         },
+        setTimeDetails: (state, action) => {
+            state.background.timeDetails = action.payload
+        },
+        setControlPanelBoard: (state, action) => {
+            state.background.controlPanelBoard = action.payload
+        }
     }
 })
 
-export const { setNightMode,setRainMode } = backgroundSlice.actions;
+export const { setNightMode,setRainMode, setTimeDetails, setControlPanelBoard } = backgroundSlice.actions;
 export default backgroundSlice.reducer

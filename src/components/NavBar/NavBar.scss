@@ -18,12 +18,11 @@
             margin-right: 20px;
         }
 
-        #btn__clock, #btn__song--control, #btn__screensize--control {
+        #btn__clock, #btn__song--control, #btn__screensize--control,  #btn__control-panel {
             background-color: $bg-shadow-color;
             border-radius: 5px;
             outline: none;
             
-           
             &:hover {
                 background: $bg-color;
             }
@@ -97,5 +96,11 @@
             #state--play {
                 display: none;
             }
+        }
+
+        #btn__control-panel {
+            position: fixed;
+            right: 20px;
+            top: 50%;
         }
 }

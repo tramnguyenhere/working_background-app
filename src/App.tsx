@@ -10,6 +10,8 @@ function App() {
   const isNight = useAppSelector((state: RootState) => state.background.background.nightMode) //true is night, false is day
   const isRainy = useAppSelector((state: RootState) => state.background.background.rainMode) //true is rainy, false is sunny
   const isPlaying = useAppSelector((state: RootState) => state.sound.songState)
+  const istimeDetailsAvailable = useAppSelector((state:RootState)=> state.background.background.timeDetails)
+  const isPanelAvailable = useAppSelector((state: RootState) => {return state.background.background.controlPanelBoard });
   
   useEffect(() => {
     const nightRainElement = document.getElementById('background--video-night_rain')!;
@@ -17,7 +19,7 @@ function App() {
     const dayRainElement = document.getElementById('background--video-day_rain')!;
     const dayElement = document.getElementById('background--video-day')!;
     const chillSongElement = document.getElementById('song--chill') as HTMLAudioElement;
-
+    
     if (isPlaying) {
       chillSongElement!.play()
     } else {
@@ -63,8 +65,8 @@ function App() {
       </video>
       <audio src="./assets/sound/songs/bg-song--chill.mp3" id='song--chill' autoPlay loop hidden />
       <NavBar />
-      <ControlPanel />
-      <TimeDetails />
+      {istimeDetailsAvailable && <TimeDetails />}
+      {isPanelAvailable && <ControlPanel />}
     </div>
   );
 }

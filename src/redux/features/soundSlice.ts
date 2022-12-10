@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    songState: false,
+    songState: true,
     moodSong: {
         chill: true,
         jazzy: false,
