@@ -122,12 +122,14 @@
                         &::-webkit-slider-runnable-track {
                             background-color: $bg-color;
                             border-radius: 5px;
-                            height: 20px;
+                            height: 10px;
                         }
                         &::-webkit-slider-thumb {
                             background-color: $primary-color;
+                            margin: -3px;
                         }
                         &::-moz-range-thumb {
+                            
                             background-color: $primary-color;
                         }
                           

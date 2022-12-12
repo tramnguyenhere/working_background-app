@@ -6,7 +6,7 @@ import { RootState } from '../../redux/store';
 import './NavBar.scss';
 
 import { hours, minutes } from '../../utils/utils';
-import { setSongState } from '../../redux/features/soundSlice';
+import { setRainEffect, setSongState } from '../../redux/features/soundSlice';
 
 const NavBar = () => {
   const [fullscreen, setFullscreen] = useState(false);
@@ -28,6 +28,10 @@ const NavBar = () => {
     e.preventDefault()
     dispatch(setNightMode(!isNight))
   }
+
+  console.log(isRainy);
+  
+
   const rainyModeHandler = (e:any) => {
     e.preventDefault()
     dispatch(setRainMode(!isRainy))
@@ -58,7 +62,13 @@ const NavBar = () => {
 
   useEffect(() => {
     hours > 14 && dispatch(setNightMode(true))
-  },[dispatch])
+
+    if (isRainy) {
+      dispatch(setRainEffect(1))
+    } else {
+      dispatch(setRainEffect(0))
+    }
+  },[dispatch, isRainy])
 
   return (
     <div className='navbar__wrapper'>
