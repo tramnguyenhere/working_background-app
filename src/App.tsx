@@ -63,7 +63,7 @@ function App() {
       <video className={`background__video`} id='background--video-day' autoPlay muted loop >
         <source src='./assets/video/backgrounds/city-corner/city-corner--day--no-rain.mp4' type="video/mp4"/>
       </video>
-      <audio src="./assets/sound/songs/bg-song--chill.mp3" id='song--chill' autoPlay loop hidden />
+      <audio src="./assets/sound/songs/bg-song--sleepy.mp3" id='song--chill' autoPlay loop hidden />
       <NavBar />
       {istimeDetailsAvailable && <TimeDetails />}
       {isPanelAvailable && <ControlPanel />}

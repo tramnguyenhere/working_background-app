@@ -13,7 +13,7 @@ export const backgroundSlice = createSlice({
     name: 'background',
     initialState,
     reducers: {
-        setNightMode: (state, action) => {
+        setNightMode: (state: { background: { nightMode: any; }; }, action: { payload: any; }) => {
             state.background.nightMode = action.payload
         },
         setRainMode: (state, action) => {
