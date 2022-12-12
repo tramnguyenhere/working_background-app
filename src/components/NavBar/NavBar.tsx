@@ -17,7 +17,7 @@ const NavBar = () => {
   const isRainy = useAppSelector((state: RootState) => state.background.background.rainMode)
   const isPlaying = useAppSelector((state: RootState) => state.sound.songState) 
   const istimeDetailsAvailable = useAppSelector((state:RootState)=> state.background.background.timeDetails)
-  const isPanelAvailable = useAppSelector((state: RootState) => {return state.background.background.controlPanelBoard });
+  const isPanelAvailable = useAppSelector((state: RootState) =>  state.background.background.controlPanelBoard);
 
   const panelHandler = (e: any) => {
     e.preventDefault();

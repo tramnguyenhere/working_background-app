@@ -1,17 +1,121 @@
 @import '../../assets/styles/global.scss';
 
 .control_panel__wrapper {
-    width: 200px;
-    height: 200px;
+    width: fit-content;
     background-color: $bg-shadow-color;
-    border: 1px solid black;
+    border: none;
     padding: 10px;
-    position: absolute;
+    position:fixed;
     right: 50px;
-    top: 20%;
+    top: 18%;
     color: $text-color;
-}
+    border-radius: 10px;
+    
 
-.dragging {
-    opacity: 0.6;
+    #btn--minimize {
+        background: transparent;
+        outline: none;
+        border: none;
+        padding: 0;
+        position: relative;
+        top: -10px;
+        left: 90%;
+        font-size: 20px;
+        color: rgba($color: #fff, $alpha: .5);
+        
+        &:hover {
+        color: $text-color;
+        cursor: pointer;
+       }
+    }
+
+    .control_panel {
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+
+        #control_panel__mood-section, #control_panel__effect-section {
+            margin: 0;
+
+            h4 {
+                margin: 0;
+                padding-bottom: 15px;
+            }
+        }
+
+        #control_panel__mood-section {
+            margin-bottom: 10px;
+            #control_panel__mood-list {
+                display: flex;
+
+                .control_panel__mood-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    width: 68px;
+                    height: 68px;
+                    margin-left: 10px;
+                    border: none;
+                    border-radius: 15px;
+                    background-color: rgba($color: grey, $alpha: .5);
+                    color: rgba($color: #fff, $alpha: .5);
+                    font-size: 16px;
+
+                    i {
+                        padding-bottom: 5px;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+
+                    &:active, &:focus {
+                        color: $text-color;
+
+                        i {
+                            color: $primary-color;
+                        }
+
+                    }
+                }
+
+                .control_panel__mood-item:first-child {
+                    margin-left: 0;
+                }
+            }
+        }
+
+        #control_panel__effect-section {
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+            width: 10px;
+            }
+            
+            &::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            }
+            
+            &::-webkit-scrollbar-thumb {
+            background-color: $primary-color;
+            }
+
+            #control_panel__effect-list {
+                display: flex;
+                flex-direction: column;
+
+                .control_panel__effect-item {
+                    display: flex;
+                    align-items: center;
+                    margin: 0 0 20px 0;
+                    
+                    h5 {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+
 }
