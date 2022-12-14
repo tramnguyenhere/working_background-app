@@ -6,7 +6,7 @@ import { RootState } from '../../redux/store';
 import './NavBar.scss';
 
 import { hours, minutes } from '../../utils/utils';
-import { setRainEffect, setSongState } from '../../redux/features/soundSlice';
+import { setSongState } from '../../redux/features/soundSlice';
 
 const NavBar = () => {
   const [fullscreen, setFullscreen] = useState(false);
@@ -15,6 +15,7 @@ const NavBar = () => {
 
   const isNight = useAppSelector((state: RootState) => state.background.background.nightMode)
   const isRainy = useAppSelector((state: RootState) => state.background.background.rainMode)
+  const rainSound = useAppSelector((state: RootState) => state.sound.soundEffects).find(e => e.id === 'rain');
   const isPlaying = useAppSelector((state: RootState) => state.sound.songState) 
   const istimeDetailsAvailable = useAppSelector((state:RootState)=> state.background.background.timeDetails)
   const isPanelAvailable = useAppSelector((state: RootState) =>  state.background.background.controlPanelBoard);
@@ -29,7 +30,7 @@ const NavBar = () => {
     dispatch(setNightMode(!isNight))
   }
 
-  console.log(isRainy);
+
   
 
   const rainyModeHandler = (e:any) => {
@@ -62,13 +63,15 @@ const NavBar = () => {
 
   useEffect(() => {
     hours > 14 && dispatch(setNightMode(true))
+    
+    rainSound!.volume > 0 ? dispatch(setRainMode(true)) : dispatch(setRainMode(false))
 
-    if (isRainy) {
-      dispatch(setRainEffect(1))
-    } else {
-      dispatch(setRainEffect(0))
-    }
-  },[dispatch, isRainy])
+    // if (isRainy) {
+    //   dispatch(setRainEffect(1))
+    // } else {
+    //   dispatch(setRainEffect(0))
+    // }
+  },[dispatch, isRainy, rainSound])
 
   return (
     <div className='navbar__wrapper'>
