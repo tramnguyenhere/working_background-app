@@ -12,3 +12,10 @@ export enum DayOfWeek {
     SATURDAY = 'Saturday',
     SUNDAY = 'Sunday',
 }
+
+export interface soundEffectState {
+    id: string,
+    name: string,
+    play:boolean,
+    volume:number
+}

@@ -7,18 +7,69 @@ const initialState = {
         jazzy: false,
         sleepy: false
     }, 
-    soundEffect: {
-        rainVolume: 0,
-        keyboardVolume: 0,
-        cityTrafficVolume: 0,
-        campfireVolume: 0,
-        fanVolume: 0,
-        riverVolume: 0,
-        stormVolume: 0,
-        wavesVolume: 0,
-        windVolume: 0,
-        peopleVolume: 0     
-    }
+   soundEffects: [
+      {
+         id: 'rain',
+         name: 'Rain',
+         play: false,
+         volume: 0,
+      },
+      {
+         id: 'keyboard',
+         name: 'Keyboard',
+         play: false,
+         volume: 0,
+      },
+      {
+         id: 'city',
+         name: 'City Traffic',
+         play: false,
+         volume: 0,
+      },
+      {
+         id: 'campfire', 
+         name: 'Campfire',
+         play:false,
+         volume: 0
+      },
+      {
+         id: 'fan', 
+         name: 'Fan',
+         play:false,
+         volume: 0
+      },
+      {
+         id: 'river', 
+         name: 'River',
+         play:false,
+         volume: 0
+      },
+      {
+         id: 'storm', 
+         name: 'Storm',
+         play:false,
+         volume: 0
+      },
+      {
+         id: 'waves', 
+         name: 'Waves',
+         play:false,
+         volume: 0
+      },
+      {
+         id: 'wind', 
+         name: 'Wind',
+         play:false,
+         volume: 0
+      },
+      {
+         id: 'people', 
+         name: 'People',
+         play:false,
+         volume: 0
+      }     
+    ]
+    
 };
 
 export const backgroundSlice = createSlice({
@@ -36,39 +87,20 @@ export const backgroundSlice = createSlice({
         },
         setSleepyMoodSong: (state, action) => {
             state.moodSong.sleepy = action.payload
-        },
-        setRainEffect: (state, action) => {
-           state.soundEffect.rainVolume = action.payload
-        },
-        setKeyboardEffect: (state, action) => {
-           state.soundEffect.keyboardVolume = action.payload
-        },
-        setCampfireEffect: (state, action) => {
-           state.soundEffect.campfireVolume = action.payload
-        },
-        setFanEffect: (state, action) => {
-           state.soundEffect.fanVolume = action.payload
-        },
-        setRiverEffect: (state, action) => {
-           state.soundEffect.riverVolume = action.payload
-        },
-        setStormEffect: (state, action) => {
-           state.soundEffect.stormVolume = action.payload
-        },
-        setWavesEffect: (state, action) => {
-           state.soundEffect.wavesVolume = action.payload
-        },
-        setWindEffect: (state, action) => {
-           state.soundEffect.windVolume = action.payload
-        },
-        setPeopleEffect: (state, action) => {
-           state.soundEffect.peopleVolume = action.payload
-        },
-        setCityEffect: (state, action) => {
-           state.soundEffect.cityTrafficVolume = action.payload
-        },
+       },
+       setSoundEffect: (state, action) => {
+         const adjustedEffect = { id: action.payload.id, name: action.payload.name, play: action.payload.play, volume: action.payload.volume }
+       
+        
+         state.soundEffects = state.soundEffects.map(effect => {
+            if (effect.id === adjustedEffect.id) {
+               return {...effect, play: adjustedEffect.play, volume: adjustedEffect.volume}
+            } 
+            return effect
+          })
+        }
     }
 })
 
-export const { setSongState, setChillMoodSong, setJazzyMoodSong, setRainEffect, setSleepyMoodSong, setKeyboardEffect, setCampfireEffect, setCityEffect, setFanEffect, setPeopleEffect, setRiverEffect, setStormEffect, setWavesEffect, setWindEffect } = backgroundSlice.actions;
+export const { setSongState, setChillMoodSong, setJazzyMoodSong, setSoundEffect } = backgroundSlice.actions;
 export default backgroundSlice.reducer
