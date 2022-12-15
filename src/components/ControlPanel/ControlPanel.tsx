@@ -3,12 +3,11 @@ import { setControlPanelBoard } from '../../redux/features/backgroundSlice';
 import { setSoundEffect } from '../../redux/features/soundSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
-import { soundEffectState } from '../../types/type';
 import './ControlPanel.scss'
 
 const ControlPanel = () => {
   const dispatch = useAppDispatch();
-  const isPanelAvailable = useAppSelector((state: RootState) => state.background.background.controlPanelBoard);
+  const isPanelAvailable = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='controlPanelBoard')?.isOn
   const soundEffects = useAppSelector((state: RootState)=> state.sound.soundEffects)
 
   
@@ -18,12 +17,13 @@ const ControlPanel = () => {
   }
 
   const soundHandler = (e: any) => {
-    
     const id = e.target.id
     const name = e.target.name
     const volumeValue = e.target.value / 100
+    console.log(volumeValue);
+    
     const isPlayed = volumeValue > 0
-    const adjustedEffect:soundEffectState = {id: id, name:name,  play: isPlayed, volume: volumeValue}
+    const adjustedEffect = {id: id, name:name,  isPlayed: isPlayed, volume: volumeValue}
     dispatch(setSoundEffect(adjustedEffect))
   }
 
@@ -38,7 +38,7 @@ const ControlPanel = () => {
   },[soundEffects])
 
   return (
-    <div className='control_panel__wrapper'>
+    <div className={`control_panel__wrapper ${!isPanelAvailable && 'hidden'}`}>
       <button onClick={panelHandler} id='btn--minimize'><i className="fa-solid fa-window-minimize"></i></button>
       <div className='control_panel'>
         <div id='control_panel__mood-section'>
