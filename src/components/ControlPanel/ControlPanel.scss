@@ -1,5 +1,7 @@
 @import '../../assets/styles/global.scss';
 
+
+
 .control_panel__wrapper {
     width: fit-content;
     background-color: $bg-shadow-color;
@@ -10,6 +12,7 @@
     top: 18%;
     color: $text-color;
     border-radius: 10px;
+    display: block;
 
     #btn--minimize {
         background: transparent;
@@ -28,25 +31,26 @@
        }
     }
 
+    
     .control_panel {
         height: 300px;
         display: flex;
         flex-direction: column;
-
+        
         #control_panel__mood-section, #control_panel__effect-section {
             margin: 0;
-
+            
             h4 {
                 margin: 0;
                 padding-bottom: 15px;
             }
         }
-
+        
         #control_panel__mood-section {
             margin-bottom: 10px;
             #control_panel__mood-list {
                 display: flex;
-
+                
                 .control_panel__mood-item {
                     display: flex;
                     flex-direction: column;
@@ -60,35 +64,35 @@
                     background-color: rgba($color: grey, $alpha: .5);
                     color: rgba($color: #fff, $alpha: .5);
                     font-size: 14px;
-
+                    
                     i {
                         padding-bottom: 5px;
                         font-size: 20px;
                     }
-
+                    
                     &:hover {
                         cursor: pointer;
                     }
-
+                    
                     &:active, &:focus {
                         color: $text-color;
-
+                        
                         i {
                             color: $primary-color;
                         }
-
+                        
                     }
                 }
-
+                
                 .control_panel__mood-item:first-child {
                     margin-left: 0;
                 }
             }
         }
-
+        
         #control_panel__effect-section {
             overflow-y: scroll;
-
+            
             &::-webkit-scrollbar {
                 width: 5px;
             }
@@ -100,25 +104,25 @@
             &::-webkit-scrollbar-thumb {
                 background-color: $primary-color;
             }
-
+            
             #control_panel__effect-list {
                 display: flex;
                 flex-direction: column;
-
+                
                 .control_panel__effect-item {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
                     margin: 0 0 20px 0;
                     font-size: 16px;
-
+                    
                     h5 {
                         margin: 0;
                     }
-
+                    
                     input[type=range] {
                         cursor: pointer;
-
+                        
                         &::-webkit-slider-runnable-track {
                             background-color: $bg-color;
                             border-radius: 5px;
@@ -132,16 +136,19 @@
                             
                             background-color: $primary-color;
                         }
-                          
+                        
                         &::-ms-thumb {
                             background-color: $primary-color;
                         }
-
+                        
                     }
                     
                 }
             }
         }
     }
-
+    
+}
+.hidden {
+    display: none;
 }

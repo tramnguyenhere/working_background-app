@@ -1,75 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import data from '../../data'
 
 const initialState = {
-    songState: true,
-    moodSong: {
-        chill: true,
-        jazzy: false,
-        sleepy: false
-    }, 
-   soundEffects: [
-      {
-         id: 'rain',
-         name: 'Rain',
-         play: false,
-         volume: 0,
-      },
-      {
-         id: 'keyboard',
-         name: 'Keyboard',
-         play: false,
-         volume: 0,
-      },
-      {
-         id: 'city',
-         name: 'City Traffic',
-         play: false,
-         volume: 0,
-      },
-      {
-         id: 'campfire', 
-         name: 'Campfire',
-         play:false,
-         volume: 0
-      },
-      {
-         id: 'fan', 
-         name: 'Fan',
-         play:false,
-         volume: 0
-      },
-      {
-         id: 'river', 
-         name: 'River',
-         play:false,
-         volume: 0
-      },
-      {
-         id: 'storm', 
-         name: 'Storm',
-         play:false,
-         volume: 0
-      },
-      {
-         id: 'waves', 
-         name: 'Waves',
-         play:false,
-         volume: 0
-      },
-      {
-         id: 'wind', 
-         name: 'Wind',
-         play:false,
-         volume: 0
-      },
-      {
-         id: 'people', 
-         name: 'People',
-         play:false,
-         volume: 0
-      }     
-    ]
-    
+   songState: data.soundState,
+   moodSong: data.mood,
+   soundEffects: data.effects
 };
 
 export const backgroundSlice = createSlice({
@@ -77,30 +12,49 @@ export const backgroundSlice = createSlice({
     initialState,
     reducers: {
         setSongState: (state, action) => {
-            state.songState = action.payload
+          state.songState = action.payload
         },
         setChillMoodSong: (state, action) => {
-            state.moodSong.chill = action.payload
+          const chill = state.moodSong.find(mode => mode.id === 'chill')
+          if (chill) {
+            chill.isPlayed = action.payload
+          }
         },
         setJazzyMoodSong: (state, action) => {
-            state.moodSong.jazzy = action.payload
+          const jazzy = state.moodSong.find(mode => mode.id === 'jazzy')
+          if (jazzy) {
+            jazzy.isPlayed = action.payload
+          }
         },
         setSleepyMoodSong: (state, action) => {
-            state.moodSong.sleepy = action.payload
-       },
-       setSoundEffect: (state, action) => {
-         const adjustedEffect = { id: action.payload.id, name: action.payload.name, play: action.payload.play, volume: action.payload.volume }
-       
+          const sleepy = state.moodSong.find(mode => mode.id === 'sleepy')
+          if (sleepy) {
+            sleepy.isPlayed = action.payload
+          }
+        },
+        setSoundEffect: (state, action) => {
+          const adjustedEffect = { id: action.payload.id, name: action.payload.name, isPlayed: action.payload.isPlayed, volume: action.payload.volume }
+          
+          state.soundEffects = state.soundEffects.map(effect => {
+              if (effect.id === adjustedEffect.id) {
+                return {...effect, isPlayed: adjustedEffect.isPlayed, volume: adjustedEffect.volume}
+              } 
+              return effect
+            })
+        },
+      setRainMode: (state, action) => {   
+        const rainState = action.payload
+        console.log(rainState);
         
-         state.soundEffects = state.soundEffects.map(effect => {
-            if (effect.id === adjustedEffect.id) {
-               return {...effect, play: adjustedEffect.play, volume: adjustedEffect.volume}
-            } 
-            return effect
-          })
-        }
+          state.soundEffects = state.soundEffects.map(effect => {
+              if (effect.id === 'rain') {
+                return {...effect, isPlayed: action.payload}
+              } 
+              return effect
+            })
+          }
     }
 })
 
-export const { setSongState, setChillMoodSong, setJazzyMoodSong, setSoundEffect } = backgroundSlice.actions;
+export const { setSongState, setChillMoodSong, setJazzyMoodSong, setSoundEffect,setRainMode } = backgroundSlice.actions;
 export default backgroundSlice.reducer

@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { setControlPanelBoard, setNightMode, setRainMode, setTimeDetails } from '../../redux/features/backgroundSlice';
+import { setControlPanelBoard, setNightMode, setTimeDetails } from '../../redux/features/backgroundSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 
 import './NavBar.scss';
 
 import { hours, minutes } from '../../utils/utils';
-import { setSongState } from '../../redux/features/soundSlice';
+import { setRainMode, setSongState, setSoundEffect } from '../../redux/features/soundSlice';
 
 const NavBar = () => {
   const [fullscreen, setFullscreen] = useState(false);
 
   const dispatch = useAppDispatch()
 
-  const isNight = useAppSelector((state: RootState) => state.background.background.nightMode)
-  const isRainy = useAppSelector((state: RootState) => state.background.background.rainMode)
-  const rainSound = useAppSelector((state: RootState) => state.sound.soundEffects).find(e => e.id === 'rain');
+  const isNight = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='nightMode')?.isOn
+  const isRainy = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain')?.isPlayed 
+  const rainVolume = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain')?.volume
+  const rainElement = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain');
   const isPlaying = useAppSelector((state: RootState) => state.sound.songState) 
-  const istimeDetailsAvailable = useAppSelector((state:RootState)=> state.background.background.timeDetails)
-  const isPanelAvailable = useAppSelector((state: RootState) =>  state.background.background.controlPanelBoard);
+  const istimeDetailsAvailable = useAppSelector((state:RootState)=> state.background.background).find(mode=>mode.id==='timeDetails')?.isOn
+  const isPanelAvailable = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='controlPanelBoard')?.isOn
 
   const panelHandler = (e: any) => {
     e.preventDefault();
@@ -29,9 +30,6 @@ const NavBar = () => {
     e.preventDefault()
     dispatch(setNightMode(!isNight))
   }
-
-
-  
 
   const rainyModeHandler = (e:any) => {
     e.preventDefault()
@@ -62,15 +60,8 @@ const NavBar = () => {
 
   useEffect(() => {
     hours > 14 && dispatch(setNightMode(true))
-    
-    rainSound!.volume > 0 && dispatch(setRainMode(true))
-
-    // if (isRainy) {
-    //   dispatch(setRainEffect(1))
-    // } else {
-    //   dispatch(setRainEffect(0))
-    // }
-  },[dispatch, isRainy, rainSound])
+    if (rainVolume && rainVolume > 0) { dispatch(setRainMode(true)) }
+  },[dispatch, isRainy, rainVolume])
 
   return (
     <div className='navbar__wrapper'>

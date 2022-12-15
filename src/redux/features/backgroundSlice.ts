@@ -1,32 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
+import data from '../../data'
 
 const initialState = {
-    background: {
-        nightMode: false,
-        rainMode: false,
-        timeDetails: false,
-        controlPanelBoard: false 
-    }
-};
+    background: data.background
+}
 
 export const backgroundSlice = createSlice({
     name: 'background',
     initialState,
     reducers: {
-        setNightMode: (state: { background: { nightMode: any; }; }, action: { payload: any; }) => {
-            state.background.nightMode = action.payload
-        },
-        setRainMode: (state, action) => {
-            state.background.rainMode = action.payload
-        },
+        setNightMode: (state, action) => {
+            const nightMode = state.background.find(mode => mode.id === 'nightMode')
+            if (nightMode) {
+              nightMode.isOn = action.payload
+            }
+          },
         setTimeDetails: (state, action) => {
-            state.background.timeDetails = action.payload
+            const timeDetails = state.background.find(mode => mode.id === 'timeDetails')
+            if (timeDetails) {
+              timeDetails.isOn = action.payload
+            }
         },
         setControlPanelBoard: (state, action) => {
-            state.background.controlPanelBoard = action.payload
+            const controlPanelBoard = state.background.find(mode => mode.id === 'controlPanelBoard')
+            if (controlPanelBoard) {
+              controlPanelBoard.isOn = action.payload
+            }
         }
     }
 })
 
-export const { setNightMode,setRainMode, setTimeDetails, setControlPanelBoard } = backgroundSlice.actions;
+export const { setNightMode, setTimeDetails, setControlPanelBoard } = backgroundSlice.actions;
 export default backgroundSlice.reducer

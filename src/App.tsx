@@ -7,11 +7,11 @@ import { useAppSelector } from './redux/hooks';
 import { RootState } from './redux/store';
 
 function App() {
-  const isNight = useAppSelector((state: RootState) => state.background.background.nightMode) //true is night, false is day
-  const isRainy = useAppSelector((state: RootState) => state.background.background.rainMode) //true is rainy, false is sunny
+  const isNight = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='nightMode')?.isOn
+  const isRainy = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain')?.isPlayed 
   const isPlaying = useAppSelector((state: RootState) => state.sound.songState)
-  const istimeDetailsAvailable = useAppSelector((state:RootState)=> state.background.background.timeDetails)
-  const isPanelAvailable = useAppSelector((state: RootState) => {return state.background.background.controlPanelBoard });
+  const istimeDetailsAvailable = useAppSelector((state:RootState)=> state.background.background).find(mode=>mode.id==='timeDetails')?.isOn
+  // const isPanelAvailable = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='controlPanelBoard')?.isOn
   
   useEffect(() => {
     const nightRainElement = document.getElementById('background--video-night_rain')!;
@@ -63,10 +63,10 @@ function App() {
       <video className={`background__video`} id='background--video-day' autoPlay muted loop >
         <source src='./assets/video/backgrounds/city-corner/city-corner--day--no-rain.mp4' type="video/mp4"/>
       </video>
-      <audio src="./assets/sound/songs/bg-song--sleepy.mp3" id='song--chill' autoPlay loop hidden />
+      <audio src="./assets/sound/songs/bg-song--sleepy.mp3" id='song--chill' controls loop hidden/>
       <NavBar />
       {istimeDetailsAvailable && <TimeDetails />}
-      {isPanelAvailable && <ControlPanel />}
+      <ControlPanel />
     </div>
   );
 }
