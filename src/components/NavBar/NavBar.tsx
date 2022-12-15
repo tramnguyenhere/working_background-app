@@ -58,13 +58,12 @@ const NavBar = () => {
         document.exitFullscreen()
       } 
     }
-
   }
 
   useEffect(() => {
     hours > 14 && dispatch(setNightMode(true))
     
-    rainSound!.volume > 0 ? dispatch(setRainMode(true)) : dispatch(setRainMode(false))
+    rainSound!.volume > 0 && dispatch(setRainMode(true))
 
     // if (isRainy) {
     //   dispatch(setRainEffect(1))
