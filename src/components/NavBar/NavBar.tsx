@@ -6,15 +6,15 @@ import { RootState } from '../../redux/store';
 import './NavBar.scss';
 
 import { hours, minutes } from '../../utils/utils';
-import { setRainMode, setSongState, setSoundEffect } from '../../redux/features/soundSlice';
+import { setSongState, setSoundEffect } from '../../redux/features/soundSlice';
 
 const NavBar = () => {
   const [fullscreen, setFullscreen] = useState(false);
 
   const dispatch = useAppDispatch()
 
+
   const isNight = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='nightMode')?.isOn
-  const isRainy = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain')?.isPlayed 
   const rainVolume = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain')?.volume
   const rainElement = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain');
   const isPlaying = useAppSelector((state: RootState) => state.sound.songState) 
@@ -33,7 +33,16 @@ const NavBar = () => {
 
   const rainyModeHandler = (e:any) => {
     e.preventDefault()
-    dispatch(setRainMode(!isRainy))
+
+    
+    let setRainVolume;
+    if (rainVolume && rainVolume > 0) {
+      setRainVolume = 0
+    } else {
+      setRainVolume = 0.5
+    }
+    
+    dispatch(setSoundEffect({...rainElement, volume: setRainVolume}))
   }
 
   const songStateHandler = (e: any) => {
@@ -60,8 +69,8 @@ const NavBar = () => {
 
   useEffect(() => {
     hours > 14 && dispatch(setNightMode(true))
-    if (rainVolume && rainVolume > 0) { dispatch(setRainMode(true)) }
-  },[dispatch, isRainy, rainVolume])
+    // if (rainVolume && rainVolume > 0) { dispatch(setRainMode(true)) }
+  },[dispatch,  rainVolume])
 
   return (
     <div className='navbar__wrapper'>
@@ -71,7 +80,7 @@ const NavBar = () => {
           <i className='fa-solid fa-sun' id='icon--day'></i>
           <i className='fa-solid fa-moon' id='icon--night'></i>
         </button>
-        <button onClick={rainyModeHandler} className={`navitem  ${isRainy && 'rain-mode'}`} id='btn__weather-mode'>
+        <button onClick={rainyModeHandler} className={`navitem  ${rainVolume !== 0 && 'rain-mode'}`} id='btn__weather-mode'>
           <i className="fa-solid fa-cloud-rain" id='icon--rain'></i>
         </button>
         <button onClick={songStateHandler} className={`navitem ${isPlaying && 'pause-mode'}`} id='btn__song--control'><i className="fa-solid fa-pause" id='state--pause'></i><i className="fa-solid fa-play" id='state--play'></i></button>

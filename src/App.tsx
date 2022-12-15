@@ -8,7 +8,7 @@ import { RootState } from './redux/store';
 
 function App() {
   const isNight = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='nightMode')?.isOn
-  const isRainy = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain')?.isPlayed 
+  const isRainy = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain')!.volume > 0
   const isPlaying = useAppSelector((state: RootState) => state.sound.songState)
   const istimeDetailsAvailable = useAppSelector((state:RootState)=> state.background.background).find(mode=>mode.id==='timeDetails')?.isOn
   // const isPanelAvailable = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='controlPanelBoard')?.isOn

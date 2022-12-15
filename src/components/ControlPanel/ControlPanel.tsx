@@ -1,52 +1,68 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { setControlPanelBoard } from '../../redux/features/backgroundSlice';
 import { setSoundEffect } from '../../redux/features/soundSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
+
 import './ControlPanel.scss'
+
+// ControlPanel component that is used to control song and sound effects.
 
 const ControlPanel = () => {
   const dispatch = useAppDispatch();
-  const isPanelAvailable = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='controlPanelBoard')?.isOn
-  const soundEffects = useAppSelector((state: RootState)=> state.sound.soundEffects)
+  const isPanelAvailable = useAppSelector(
+    (state: RootState) => state.background.background
+  ).find(mode => mode.id === 'controlPanelBoard')?.isOn;
+  const soundEffects = useAppSelector(
+    (state: RootState) => state.sound.soundEffects
+  );
 
-  
-  const panelHandler = (e: any) => {
+  const handleClick = (e: any) => {
     e.preventDefault();
-    dispatch(setControlPanelBoard(!isPanelAvailable))
-  }
-
-  const soundHandler = (e: any) => {
     const id = e.target.id
-    const name = e.target.name
-    const volumeValue = e.target.value / 100
-    console.log(volumeValue);
+    const name = e.target.name;
     
-    const isPlayed = volumeValue > 0
-    const adjustedEffect = {id: id, name:name,  isPlayed: isPlayed, volume: volumeValue}
-    dispatch(setSoundEffect(adjustedEffect))
-  }
+    if (id === 'btn--minimize') {
+      dispatch(setControlPanelBoard(!isPanelAvailable));
+    } else {
+      const volumeValue = parseInt(e.target.value, 10) / 100;
+      const adjustedEffect = { id, name, volume: volumeValue };
+      dispatch(setSoundEffect(adjustedEffect));
+    }
+  };
 
+/** The component uses the useEffect hook from React to listen for changes 
+to the soundEffects state and update the audio elements accordingly.  */
   useEffect(() => {
     soundEffects.forEach(effect => {
-      if (effect.volume > 0) {
-        const audio = document.getElementById(effect.id+'-effect__audio') as HTMLAudioElement
-        audio.play()
-        audio.volume = effect.volume
-      }
+      const audio = document.getElementById(effect.id + '-effect__audio') as
+        HTMLAudioElement
+      effect.volume > 0 ? audio.play() : audio.pause()
+      audio.volume = effect.volume
     })
   },[soundEffects])
 
   return (
     <div className={`control_panel__wrapper ${!isPanelAvailable && 'hidden'}`}>
-      <button onClick={panelHandler} id='btn--minimize'><i className="fa-solid fa-window-minimize"></i></button>
+      <button onClick={handleClick} id='btn--minimize'>
+        <i className="fa-solid fa-window-minimize"></i>
+      </button>
       <div className='control_panel'>
         <div id='control_panel__mood-section'>
           <h4>Mood</h4>
           <div id='control_panel__mood-list'>
-            <button className='control_panel__mood-item'><i className="fa-sharp fa-solid fa-moon"></i>Sleepy</button>
-            <button className='control_panel__mood-item'><i className="fa-solid fa-guitar"></i>Jazzy</button>
-            <button className='control_panel__mood-item'><i className="fa-solid fa-cookie-bite"></i>Chill</button>
+            <button className='control_panel__mood-item'>
+              <i className="fa-sharp fa-solid fa-moon"></i>
+              Sleepy
+            </button>
+            <button className='control_panel__mood-item'>
+              <i className="fa-solid fa-guitar"></i>
+              Jazzy
+            </button>
+            <button className='control_panel__mood-item'>
+              <i className="fa-solid fa-cookie-bite"></i>
+              Chill
+            </button>
           </div>
         </div>
         <div id='control_panel__effect-section'>
@@ -55,8 +71,8 @@ const ControlPanel = () => {
             {soundEffects.map(effect => (
               <div className='control_panel__effect-item' id={`effect-item--${effect.id}`} key={effect.id}>
                 <h5>{effect.name}</h5>
-                <input name={effect.name} onChange={soundHandler} id={effect.id} type='range' min={0} max={100} value={effect.volume * 100}></input>
-                <audio id={`${effect.id}-effect__audio`} src={`./assets/sound/effects/audio--${effect.id}.mp3`} hidden controls loop></audio>
+                <input name={effect.name} onChange={handleClick} id={effect.id} type='range' min={0} max={100} value={effect.volume * 100} />
+                <audio id={`${effect.id}-effect__audio`} src={`./assets/sound/effects/audio--${effect.id}.mp3`} hidden controls loop />
             </div>
             ))}
           </div>

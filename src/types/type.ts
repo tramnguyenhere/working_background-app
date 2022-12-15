@@ -16,7 +16,6 @@ export interface DataType {
         {
             id: effectElement,
             name: string,
-            isPlayed: boolean,
             volume: number,
          }>
 }

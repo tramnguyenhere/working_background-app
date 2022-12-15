@@ -41,20 +41,9 @@ export const backgroundSlice = createSlice({
               } 
               return effect
             })
-        },
-      setRainMode: (state, action) => {   
-        const rainState = action.payload
-        console.log(rainState);
-        
-          state.soundEffects = state.soundEffects.map(effect => {
-              if (effect.id === 'rain') {
-                return {...effect, isPlayed: action.payload}
-              } 
-              return effect
-            })
-          }
+        }
     }
 })
 
-export const { setSongState, setChillMoodSong, setJazzyMoodSong, setSoundEffect,setRainMode } = backgroundSlice.actions;
+export const { setSongState, setChillMoodSong, setJazzyMoodSong, setSoundEffect } = backgroundSlice.actions;
 export default backgroundSlice.reducer
