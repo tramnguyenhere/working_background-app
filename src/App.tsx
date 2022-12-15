@@ -19,10 +19,13 @@ function App() {
     const dayRainElement = document.getElementById('background--video-day_rain')!;
     const dayElement = document.getElementById('background--video-day')!;
     const activeSongElement = document.getElementById('song--'+activeSong?.id) as HTMLAudioElement;
+    const audioElements = Array.from(document.getElementsByTagName('audio'));
     
     if (isPlaying) {
       activeSongElement!.play()
     } else {
+      audioElements.forEach((audio: HTMLAudioElement) => audio.pause())
+      
       activeSongElement!.pause()
     }
 

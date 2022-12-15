@@ -10,6 +10,34 @@ import './ControlPanel.scss'
 const ControlPanel = () => {
   const dispatch = useAppDispatch();
 
+  const controlPanelCard = document.getElementById('draggable')
+  console.log(controlPanelCard);
+  
+  
+  controlPanelCard !== null && controlPanelCard!.addEventListener('mousedown', (e:any) => {
+    var card = e.target;
+    
+    // Calculate offset
+    var offsetX = e.clientX - card.offsetLeft;
+    var offsetY = e.clientY - card.offsetTop;
+    
+    // Move card
+    var moveCard = (e:any) => {
+    card.style.left = (e.clientX - offsetX) + 'px';
+    card.style.top = (e.clientY - offsetY) + 'px';
+    }
+    
+    // Drop card
+    var dropCard = (e:any) => {
+    document.removeEventListener('mousemove', moveCard);
+    document.removeEventListener('mouseup', dropCard);
+    }
+    // Listen for mousemove and mouseup events
+    document.addEventListener('mousemove', moveCard);
+    document.addEventListener('mouseup', dropCard);
+    
+    });
+
   // Get the data of the visibility of panel from Redux store
   const isPanelAvailable = useAppSelector(
     (state: RootState) => state.background.background
@@ -68,10 +96,9 @@ const ControlPanel = () => {
       audio.volume=1
     })
   },[moodSongs, soundEffects])
-  
 
   return (
-    <div className={`control_panel__wrapper ${!isPanelAvailable && 'hidden'}`}>
+    <div id='draggable' className={`control_panel__wrapper ${!isPanelAvailable && 'hidden'}`}>
       <button onClick={panelVisibilityHandler} id='btn--minimize'>
         <i className="fa-solid fa-window-minimize"></i>
       </button>
