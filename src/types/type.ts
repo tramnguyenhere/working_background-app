@@ -10,7 +10,9 @@ export interface DataType {
     soundState: boolean,
     mood: Array<{
         id: moodElement,
-        isPlayed: boolean
+        name: string,
+        isPlayed: boolean,
+        icon: string
     }>,
     effects: Array<
         {

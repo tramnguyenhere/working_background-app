@@ -1,38 +1,58 @@
 import { useEffect } from 'react'
 import { setControlPanelBoard } from '../../redux/features/backgroundSlice';
-import { setSoundEffect } from '../../redux/features/soundSlice';
+import { setSoundEffect, setMoodSong } from '../../redux/features/soundSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 
 import './ControlPanel.scss'
 
-// ControlPanel component that is used to control song and sound effects.
-
+// ControlPanel component is used to control song and sound effects.
 const ControlPanel = () => {
   const dispatch = useAppDispatch();
+
+  // Get the data of the visibility of panel from Redux store
   const isPanelAvailable = useAppSelector(
     (state: RootState) => state.background.background
   ).find(mode => mode.id === 'controlPanelBoard')?.isOn;
+
+  // Get the data of sound effects from Redux store
   const soundEffects = useAppSelector(
     (state: RootState) => state.sound.soundEffects
   );
 
+  // Get the data of song based on mood from Redux store
+  const moodSongs = useAppSelector(
+    (state: RootState) => state.sound.moodSong
+  );
+
+  const panelVisibilityHandler = (e: any) => {
+    e.preventDefault();
+    dispatch(setControlPanelBoard(!isPanelAvailable));
+  }
+  // Function is called when click buttons
   const handleClick = (e: any) => {
     e.preventDefault();
     const id = e.target.id
     const name = e.target.name;
+    //Get the right function for each button based on button's id
     
-    if (id === 'btn--minimize') {
-      dispatch(setControlPanelBoard(!isPanelAvailable));
+    if (id === 'chill' || id === 'sleepy' || id === 'jazzy') {
+      const isPlayed = moodSongs.find(song => song.id === id)?.isPlayed
+      const isNotClickedSongs =  moodSongs.filter(song => song.id !== id)
+      if (!isPlayed) {
+        isNotClickedSongs.forEach(song=>dispatch(setMoodSong({id: song.id,name: song.name, isPlayed: false})))
+        dispatch(setMoodSong({id,name,isPlayed: true}))
+      }
     } else {
       const volumeValue = parseInt(e.target.value, 10) / 100;
       const adjustedEffect = { id, name, volume: volumeValue };
+      
+      //Update the volume of a sound effect with corresponding id
       dispatch(setSoundEffect(adjustedEffect));
     }
   };
 
-/** The component uses the useEffect hook from React to listen for changes 
-to the soundEffects state and update the audio elements accordingly.  */
+  // Listen for changes in the soundEffects state and update the audio elements accordingly.
   useEffect(() => {
     soundEffects.forEach(effect => {
       const audio = document.getElementById(effect.id + '-effect__audio') as
@@ -40,29 +60,32 @@ to the soundEffects state and update the audio elements accordingly.  */
       effect.volume > 0 ? audio.play() : audio.pause()
       audio.volume = effect.volume
     })
-  },[soundEffects])
+
+    moodSongs.forEach(song => {
+      const audio = document.getElementById('song--'+song.id) as
+        HTMLAudioElement
+      song.isPlayed ? audio.play() : audio.pause()
+      audio.volume=1
+    })
+  },[moodSongs, soundEffects])
+  
 
   return (
     <div className={`control_panel__wrapper ${!isPanelAvailable && 'hidden'}`}>
-      <button onClick={handleClick} id='btn--minimize'>
+      <button onClick={panelVisibilityHandler} id='btn--minimize'>
         <i className="fa-solid fa-window-minimize"></i>
       </button>
       <div className='control_panel'>
         <div id='control_panel__mood-section'>
           <h4>Mood</h4>
           <div id='control_panel__mood-list'>
-            <button className='control_panel__mood-item'>
-              <i className="fa-sharp fa-solid fa-moon"></i>
-              Sleepy
+            {moodSongs.map(song => (
+            <button onClick={handleClick} key={song.id} id={song.id} className={`control_panel__mood-item ${song.isPlayed && 'mood--active'}`}>
+              <i className={`fa-solid fa-${song.icon}`}></i>
+                {song.name}
+              <audio id={`song--${song.id}`} src={`./assets/sound/songs/bg-song--${song.id}.mp3`} hidden controls loop />
             </button>
-            <button className='control_panel__mood-item'>
-              <i className="fa-solid fa-guitar"></i>
-              Jazzy
-            </button>
-            <button className='control_panel__mood-item'>
-              <i className="fa-solid fa-cookie-bite"></i>
-              Chill
-            </button>
+            ))}
           </div>
         </div>
         <div id='control_panel__effect-section'>

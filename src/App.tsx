@@ -10,20 +10,20 @@ function App() {
   const isNight = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='nightMode')?.isOn
   const isRainy = useAppSelector((state: RootState) => state.sound.soundEffects).find(effect=>effect.id==='rain')!.volume > 0
   const isPlaying = useAppSelector((state: RootState) => state.sound.songState)
+  const activeSong = useAppSelector((state: RootState) => state.sound.moodSong).find(song => song.isPlayed); 
   const istimeDetailsAvailable = useAppSelector((state:RootState)=> state.background.background).find(mode=>mode.id==='timeDetails')?.isOn
-  // const isPanelAvailable = useAppSelector((state: RootState) => state.background.background).find(mode=>mode.id==='controlPanelBoard')?.isOn
   
   useEffect(() => {
     const nightRainElement = document.getElementById('background--video-night_rain')!;
     const nightElement = document.getElementById('background--video-night')!;
     const dayRainElement = document.getElementById('background--video-day_rain')!;
     const dayElement = document.getElementById('background--video-day')!;
-    const chillSongElement = document.getElementById('song--chill') as HTMLAudioElement;
+    const activeSongElement = document.getElementById('song--'+activeSong?.id) as HTMLAudioElement;
     
     if (isPlaying) {
-      chillSongElement!.play()
+      activeSongElement!.play()
     } else {
-      chillSongElement!.pause()
+      activeSongElement!.pause()
     }
 
     if (isNight && isRainy) {
@@ -47,7 +47,7 @@ function App() {
       nightElement.style.opacity = '0';
       nightRainElement.style.opacity = '0';
     }
-  }, [isNight, isRainy, isPlaying]);
+  }, [activeSong?.id, isNight, isPlaying, isRainy]);
   
   return (
     <div className="App">
@@ -63,7 +63,7 @@ function App() {
       <video className={`background__video`} id='background--video-day' autoPlay muted loop >
         <source src='./assets/video/backgrounds/city-corner/city-corner--day--no-rain.mp4' type="video/mp4"/>
       </video>
-      <audio src="./assets/sound/songs/bg-song--sleepy.mp3" id='song--chill' controls loop hidden/>
+      {/* <audio src="./assets/sound/songs/bg-song--sleepy.mp3" id='song--chill' controls loop hidden/> */}
       <NavBar />
       {istimeDetailsAvailable && <TimeDetails />}
       <ControlPanel />

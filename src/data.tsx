@@ -15,19 +15,25 @@ const data:DataType = {
             isOn: false
         },
     ],
-    soundState: false,
+    soundState: true,
     mood: [
         {
             id: 'sleepy',
-            isPlayed: false
+            name: 'Sleepy',
+            isPlayed: false,
+            icon: 'moon'
         },
         {
             id: 'jazzy',
-            isPlayed: false
+            name: 'Jazzy',
+            isPlayed: false,
+            icon: 'guitar'
         },
         {
             id: 'chill',
-            isPlayed: true
+            name: 'Chill',
+            isPlayed: true,
+            icon: 'cookie-bite'
         },
     ],
     effects: [

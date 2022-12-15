@@ -71,15 +71,15 @@
                     &:hover {
                         cursor: pointer;
                     }
+                }
+
+                .mood--active {
+                    color: $text-color;
                     
-                    &:active, &:focus {
-                        color: $text-color;
-                        
-                        i {
-                            color: $primary-color;
-                        }
-                        
+                    i {
+                        color: $primary-color;
                     }
+                    
                 }
                 
                 .control_panel__mood-item:first-child {
