@@ -12,6 +12,14 @@
     border-radius: 10px;
     display: block;
 
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:active{
+        opacity: 0.6;
+    }
+
     #btn--minimize {
         background: transparent;
         outline: none;
