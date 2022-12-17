@@ -11,8 +11,6 @@ const ControlPanel = () => {
   const dispatch = useAppDispatch();
 
   const controlPanelCard = document.getElementById('draggable')
-  console.log(controlPanelCard);
-  
   
   controlPanelCard !== null && controlPanelCard!.addEventListener('mousedown', (e:any) => {
     var card = e.target;
