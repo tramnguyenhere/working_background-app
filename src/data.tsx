@@ -15,7 +15,7 @@ const data:DataType = {
             isOn: false
         },
     ],
-    soundState: true,
+    soundState: false,
     mood: [
         {
             id: 'sleepy',

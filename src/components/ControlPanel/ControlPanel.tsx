@@ -51,6 +51,9 @@ const ControlPanel = () => {
     (state: RootState) => state.sound.moodSong
   );
 
+  // Get the data of song state from Redux store
+  const isPlaying = useAppSelector((state: RootState) => state.sound.songState)
+
   const panelVisibilityHandler = (e: any) => {
     e.preventDefault();
     dispatch(setControlPanelBoard(!isPanelAvailable));
@@ -60,16 +63,27 @@ const ControlPanel = () => {
     e.preventDefault();
     const id = e.target.id
     const name = e.target.name;
+
     //Get the right function for each button based on button's id
-    
     if (id === 'chill' || id === 'sleepy' || id === 'jazzy') {
+
+      // Check whether the selected song is played
       const isPlayed = moodSongs.find(song => song.id === id)?.isPlayed
-      const isNotClickedSongs =  moodSongs.filter(song => song.id !== id)
+
+      // An array of unselected songs
+      const isNotClickedSongs = moodSongs.filter(song => song.id !== id)
+      
+      // Play the selected song and ensure the other songs are turned off
       if (!isPlayed) {
         isNotClickedSongs.forEach(song=>dispatch(setMoodSong({id: song.id,name: song.name, isPlayed: false})))
         dispatch(setMoodSong({id,name,isPlayed: true}))
       }
     } else {
+
+      /**
+       * The volume is set from 0 to 1, to make it user-friendly, it is set 0-100 on screen.
+       * Therefore, it must be devided by 100 again to set in volume
+       */
       const volumeValue = parseInt(e.target.value, 10) / 100;
       const adjustedEffect = { id, name, volume: volumeValue };
       
@@ -81,24 +95,36 @@ const ControlPanel = () => {
   // Listen for changes in the soundEffects state and update the audio elements accordingly.
   useEffect(() => {
     soundEffects.forEach(effect => {
+
+      // Get the audio HTML element for each effect
       const audio = document.getElementById(effect.id + '-effect__audio') as
         HTMLAudioElement
+      
+      // Set the audio play or pause based on volume value
       effect.volume > 0 ? audio.play() : audio.pause()
+
+      // Set the volume of the audio from the volume value in store
       audio.volume = effect.volume
     })
 
     moodSongs.forEach(song => {
+
+      // Get the audio HTML element for each song
       const audio = document.getElementById('song--'+song.id) as
         HTMLAudioElement
-      song.isPlayed ? audio.play() : audio.pause()
+      
+      // Set the audio play or pause based on store value
+      (song.isPlayed && isPlaying) ? audio.play() : audio.pause()
+
+      // Set the volume of the audio to maximum
       audio.volume=1
     })
-  },[moodSongs, soundEffects])
+  },[isPlaying, moodSongs, soundEffects])
 
   return (
     <div id='draggable' className={`control_panel__wrapper ${!isPanelAvailable && 'hidden'}`}>
       <button onClick={panelVisibilityHandler} id='btn--minimize'>
-        <i className="fa-solid fa-window-minimize"></i>
+        <i className="fa-solid fa-window-minimize"/>
       </button>
       <div className='control_panel'>
         <div id='control_panel__mood-section'>
@@ -106,7 +132,7 @@ const ControlPanel = () => {
           <div id='control_panel__mood-list'>
             {moodSongs.map(song => (
             <button onClick={handleClick} key={song.id} id={song.id} className={`control_panel__mood-item ${song.isPlayed && 'mood--active'}`}>
-              <i className={`fa-solid fa-${song.icon}`}></i>
+              <i className={`fa-solid fa-${song.icon}`} />
                 {song.name}
               <audio id={`song--${song.id}`} src={`./assets/sound/songs/bg-song--${song.id}.mp3`} hidden controls loop />
             </button>
